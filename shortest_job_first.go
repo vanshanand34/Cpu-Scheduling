@@ -1,12 +1,26 @@
 package main
 
-import "fmt"
+import (
+	"cmp"
+	"fmt"
+	"slices"
+)
 
-func firstComeFirstServe(processes []Process) {
+func shortestJobFirst(processes []Process) {
 
+	burstCompare := func(p1, p2 Process) int {
+		return cmp.Compare(p1.burst, p2.burst)
+	}
+
+	fmt.Println(processes)
+
+	slices.SortFunc(processes, burstCompare)
+
+	fmt.Println(processes)
 	var n int = len(processes)
 
 	var completion_time []float64 = make([]float64, n)
+
 	var waiting_time []float64 = make([]float64, n)
 	var turn_around_time []float64 = make([]float64, n)
 
@@ -34,7 +48,10 @@ func firstComeFirstServe(processes []Process) {
 	avg_waiting_time := total_waiting_time / float64(n)
 	avg_turn_around_time := total_turn_around_time / float64(n)
 
-	fmt.Println("--- First Come First Serve ---")
+	fmt.Println(waiting_time)
+	fmt.Println(turn_around_time)
+
+	fmt.Println("--- Shortest Job First ---")
 
 	fmt.Println("Average Waiting Time: ", avg_waiting_time)
 	fmt.Println("Average Turn Around Time: ", avg_turn_around_time)
