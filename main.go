@@ -7,9 +7,12 @@ type Process struct {
 
 func main() {
 
-	var processes []Process = []Process{{0, 1}, {1, 7}, {2, 22}, {3, 3}, {4, 9}, {5, 15}, {6, 26}, {7, 17}, {8, 8}, {9, 19}}
+	var processes []Process = []Process{
+		{0, 1}, {1, 7}, {2, 22}, {3, 3}, {4, 9}, {5, 15}, {6, 26}, {7, 17}, {8, 8}, {9, 19},
+	}
 
 	firstComeFirstServe(processes)
 	shortestJobFirst(processes)
+	longestJobFirst(processes)
 
 }
