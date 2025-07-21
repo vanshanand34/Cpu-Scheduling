@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 func firstComeFirstServe(processes []Process) {
 
 	var n int = len(processes)
@@ -34,8 +32,5 @@ func firstComeFirstServe(processes []Process) {
 	avg_waiting_time := total_waiting_time / float64(n)
 	avg_turn_around_time := total_turn_around_time / float64(n)
 
-	fmt.Println("--- First Come First Serve ---")
-
-	fmt.Println("Average Waiting Time: ", avg_waiting_time)
-	fmt.Println("Average Turn Around Time: ", avg_turn_around_time)
+	printAlgoResult("First Come First Serve", avg_waiting_time, avg_turn_around_time)
 }

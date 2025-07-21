@@ -2,7 +2,6 @@ package main
 
 import (
 	"cmp"
-	"fmt"
 	"slices"
 )
 
@@ -16,8 +15,6 @@ func longestJobFirst(processes []Process) {
 	n := len(processes)
 
 	slices.SortFunc(processes, burstComp)
-
-	fmt.Println(processes)
 
 	var waiting_time []float64 = make([]float64, n)
 	var completion_time []float64 = make([]float64, n)
@@ -44,8 +41,5 @@ func longestJobFirst(processes []Process) {
 	avg_wait_time := total_wait_time / float64(n)
 	avg_tat_time := total_tat_time / float64(n)
 
-	fmt.Println("--- Longest Job First Algorithm ---")
-	fmt.Println("Average waiting time: ", avg_wait_time)
-	fmt.Println("Average turn around time: ", avg_tat_time)
-
+	printAlgoResult("Longest Job First Algorithm", avg_wait_time, avg_tat_time)
 }

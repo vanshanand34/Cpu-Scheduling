@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type Process struct {
 	arrival float64
 	burst   float64
@@ -14,5 +16,14 @@ func main() {
 	firstComeFirstServe(processes)
 	shortestJobFirst(processes)
 	longestJobFirst(processes)
+	highestResponseRatioNext(processes)
 
+}
+
+func printAlgoResult(algo_name string, avg_wait_time, avg_tat_time float64) {
+	fmt.Println()
+	fmt.Println("--- ", algo_name, " ---")
+	fmt.Println("Average waiting time: ", avg_wait_time)
+	fmt.Println("Average turn around time: ", avg_tat_time)
+	fmt.Println()
 }
