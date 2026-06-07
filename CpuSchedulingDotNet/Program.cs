@@ -1,9 +1,7 @@
 ﻿using CpuSchedulingDotNet.Algorithms;
 
-
 namespace CpuSchedulingDotNet
 {
-
   public struct Process
   {
     public int Priority;
@@ -18,8 +16,6 @@ namespace CpuSchedulingDotNet
 
   public class Runner
   {
-
-
     public static void Main(string[] args)
     {
 
@@ -36,8 +32,8 @@ namespace CpuSchedulingDotNet
         new Process { ArrivalTime = 9, BurstTime = 19, Priority = 8},
       ];
 
-
-      FirstComeFirstServeAlgorithm.Execute(processes);
+      SchedulingResult fcfcResult = FirstComeFirstServeAlgorithm.Execute(processes);
+      Console.WriteLine($"First come first server result: {fcfcResult}");
     }
 
   }
