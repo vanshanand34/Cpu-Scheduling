@@ -33,8 +33,9 @@ namespace CpuSchedulingDotNet
       ];
 
       SchedulingResult fcfcResult = FirstComeFirstServeAlgorithm.Execute(processes);
-      Console.WriteLine($"First come first server result: {fcfcResult}");
+      SchedulingResult longestJobFirstResult = LongestJobFirst.Execute(processes);
+      Console.WriteLine($"First Come First Serve Algo result: {fcfcResult}");
+      Console.WriteLine($"Longest Job First Algo result: {longestJobFirstResult}");
     }
-
   }
 }
