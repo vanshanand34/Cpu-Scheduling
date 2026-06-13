@@ -7,7 +7,6 @@ package main
 
 import (
 	"cmp"
-	"fmt"
 	"slices"
 )
 
@@ -44,6 +43,8 @@ func shortestRemainingTimeFirst(processes []Process) {
 		}
 		last_added = i - 1
 
+		// If no process is arrived at curr time, shift curr time to
+		// the process arriving first
 		if len(ready_queue) == 0 && last_added < n-1 {
 			ready_queue = append(ready_queue, last_added+1)
 			curr_time = processes[last_added+1].arrival
@@ -82,8 +83,6 @@ func shortestRemainingTimeFirst(processes []Process) {
 			total_wait_time += waiting_time[min_burst]
 		}
 	}
-
-	fmt.Println(remaining_burst)
 
 	avg_tat_time := total_tat_time / float64(n)
 	avg_wait_time := total_wait_time / float64(n)

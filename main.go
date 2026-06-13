@@ -14,8 +14,12 @@ type Process struct {
 func main() {
 
 	var processes []Process = []Process{
-		{0, 1, 2}, {1, 7, 3}, {2, 22, 12}, {3, 3, 5}, {4, 9, 11}, {5, 15, 9}, {6, 26, 7}, {7, 17, 6}, {8, 8, 1}, {9, 19, 8},
+		{0, 1, 2}, {1, 7, 3}, {2, 22, 12}, {3, 3, 5}, {4, 9, 11}, {5, 15, 9},
+		{6, 26, 7}, {7, 17, 6}, {8, 8, 1}, {9, 19, 8},
 	}
+
+	// Turn Around Time = Completion Time - Arrival Time
+	// Waiting Time = Turn Around Time - Burst Time
 
 	firstComeFirstServe(processes)
 	shortestJobFirst(processes)
@@ -23,6 +27,8 @@ func main() {
 	highestResponseRatioNext(processes)
 	priorityScheduling(processes)
 	nonPreemptivePriorityScheduling(processes)
+	roundRobin(processes, 2.0)
+	shortestRemainingTimeFirst(processes)
 
 }
 
