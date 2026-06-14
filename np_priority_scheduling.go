@@ -8,68 +8,72 @@ package main
 
 import (
 	"cmp"
-	"fmt"
 	"slices"
 )
 
 func priorityScheduling(processes []Process) {
 	var n int = len(processes)
-	fmt.Print()
-	waiting_time := make([]float64, n)
-	completion_time := make([]float64, n)
-	turn_around_time := make([]float64, n)
+
+	slices.SortFunc(processes, func(a, b Process) int {
+		return cmp.Compare(a.arrival, b.arrival)
+	})
+
+	currentTime := 0.0
+	processCompleted := 0
 	executed := make([]bool, n)
+	bestPriorityIdx := -1
+	totalWaitingTime := 0.0
+	totalTurnaroundTime := 0.0
 
-	sortByPriority := func(a, b Process) int {
-		return cmp.Compare(a.priority, b.priority)
-	}
+	for processCompleted < n {
+		// Find the process present in current time with highest priority (least priority number)
+		bestPriorityIdx = -1
 
-	slices.SortFunc(processes, sortByPriority)
+		for i := range n {
 
-	curr_time := 0.0
-	total_tat_time := 0.0
-	total_wait_time := 0.0
-
-	for i := range n {
-		// select process with least priority available at this time (curr_time)
-		idx := i
-		idx = -1
-
-		for j := range n {
-			if executed[j] {
+			if executed[i] {
 				continue
 			}
 
-			wait_time := processes[j].arrival - curr_time
-			if wait_time <= 0 {
-				idx = j
+			currProcess := processes[i]
+			if currProcess.arrival > currentTime {
 				break
 			}
+
+			if bestPriorityIdx == -1 || currProcess.priority < processes[bestPriorityIdx].priority {
+				bestPriorityIdx = i
+			}
+
 		}
 
-		if idx == -1 {
-			// no process available at curr time
-			// choose first unexecuted process
-			for j := range n {
-				if !executed[j] {
-					idx = j
+		if bestPriorityIdx == -1 {
+			// Find process with least arrival time that is not executed yet, in case no process has not arrived yet at currentTime
+			for i := range n {
+				if !executed[i] {
+					currentTime = processes[i].arrival
 					break
 				}
 			}
+			continue
 		}
 
-		completion_time[idx] = max(curr_time, processes[idx].arrival) + processes[idx].burst
-		turn_around_time[idx] = completion_time[idx] - processes[idx].arrival
-		waiting_time[idx] = turn_around_time[idx] - processes[idx].burst
-		executed[idx] = true
-		curr_time = completion_time[idx]
+		// Execute process with index bestPriorityIdx
+		processToExecute := processes[bestPriorityIdx]
+		completionTime := currentTime + processToExecute.burst
+		turnaroundTime := completionTime - processToExecute.arrival
+		waitingTime := turnaroundTime - processToExecute.burst
 
-		total_tat_time += turn_around_time[idx]
-		total_wait_time += waiting_time[idx]
+		totalWaitingTime += waitingTime
+		totalTurnaroundTime += turnaroundTime
+
+		currentTime = completionTime
+		executed[bestPriorityIdx] = true
+		processCompleted++
+
 	}
 
-	avg_wait_time := total_wait_time / float64(n)
-	avg_tat_time := total_tat_time / float64(n)
+	avgWaitingTime := totalWaitingTime / float64(n)
+	avgTurnaroundTime := totalTurnaroundTime / float64(n)
 
-	printAlgoResult("Non Preemptive Priority Scheduling Algorithm", avg_wait_time, avg_tat_time)
+	printAlgoResult("Non Preemptive Priority Scheduling Algorithm", avgWaitingTime, avgTurnaroundTime)
 }
